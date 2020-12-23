@@ -20,13 +20,13 @@ namespace CarRental.Controllers
             _context = context;
         }
         [HttpGet]
-        public IActionResult Register()
+        public IActionResult Registration()
         {
             return View();
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Register(Registration model)
+        public async Task<IActionResult> Registration(Registration model)
         {
             if (ModelState.IsValid)
             {
@@ -34,10 +34,13 @@ namespace CarRental.Controllers
                 if (user == null)
                 {
                     // добавляем пользователя в бд
-                    user = new User { Email = model.Email, Password = model.Password };
+                    user = new User { Email = model.Email, Password = model.Password ,Id = _context.Users.Max(m=>m.Id) + 1};
                     Role userRole = await _context.Roles.FirstOrDefaultAsync(r => r.Name == "user");
                     if (userRole != null)
+                    {
                         user.Role = userRole;
+                        user.RoleId = userRole.Id;
+                    }
 
                     _context.Users.Add(user);
                     await _context.SaveChangesAsync();
@@ -61,15 +64,19 @@ namespace CarRental.Controllers
         public async Task<IActionResult> Login(Login model)
         {
             if (ModelState.IsValid)
-            {
+            { 
                 User user = await _context.Users
                     .Include(u => u.Role)
                     .FirstOrDefaultAsync(u => u.Email == model.Email && u.Password == model.Password);
                 if (user != null)
                 {
                     await Authenticate(user); // аутентификация
-
-                    return RedirectToAction("Index", "Home");
+                    if (user.RoleId == _context.Roles.Where(w => w.Name == "admin").Select(s => s.Id).FirstOrDefault())
+                        return RedirectToAction("Index", "Home");
+                    if (user.RoleId == _context.Roles.Where(w => w.Name == "manager").Select(s => s.Id).FirstOrDefault())
+                        return RedirectToAction("Index", "Home");
+                    if (user.RoleId == _context.Roles.Where(w => w.Name == "user").Select(s => s.Id).FirstOrDefault())
+                        return RedirectToAction("Index", "Home");
                 }
                 ModelState.AddModelError("", "Некорректные логин и(или) пароль");
             }
