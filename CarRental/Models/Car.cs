@@ -7,5 +7,6 @@ namespace CarRental.Models
 {
 	public class Car
 	{
+		string Model { get; set; }
 	}
 }
