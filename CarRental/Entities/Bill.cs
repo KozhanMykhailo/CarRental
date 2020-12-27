@@ -35,6 +35,7 @@ namespace CarRental.Entities
 		/// </summary>
 		[Display(Name = "К оплате")]
 		[Required(ErrorMessage = "Укажите стоимость ремонта")]
+		[Range(typeof(decimal), "0,5", "100000,100", ErrorMessage = "Наименьшие значение 0,5 , в качестве разделителя дробной и целой части используется запятая")]
 		public decimal ToPay { get; set; }		
 		/// <summary>
 		/// Банковские реквизиты

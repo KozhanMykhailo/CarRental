@@ -7,7 +7,7 @@
 <h1>Создание предложения</h1>
 <h4>Введите данные</h4>
 @using (Html.BeginForm())
-{  
+{
     <div class="form-group">
         <label>Наименование</label>
         @Html.TextBoxFor(car => car.Name)
@@ -36,17 +36,29 @@
     </div>
     <div class="form-group">
         <label>Цена</label>
-        @Html.TextBoxFor(car => car.RentalPrice)
+        @Html.EditorFor(car => car.RentalPrice)
         @Html.ValidationMessageFor(car => car.RentalPrice)
     </div>
     <input type="submit" value="Создать" class="btn btn-outline-success" />
 }
 <div>
-    @Html.ActionLink("К списку доступных", "GetAllCars", new { area = "Admin", controller = "Admin" } , new { @class = "btn btn-outline-info" });
+    @Html.ActionLink("К списку доступных", "GetAllCars", new { area = "Admin", controller = "Admin" }, new { @class = "btn btn-outline-info" })
 </div>
 
-@section scripts{
+@section Scripts{
 
     <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
     <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+    <script>
+        // переопределение валидации на стороне клиента
+        $.validator.methods.range = function (value, element, param) {
+            var globalizedValue = value.replace(",", ".");
+            return this.optional(element) || (globalizedValue >= param[0] && globalizedValue <= param[1]);
+        }
+
+        $.validator.methods.number = function (value, element) {
+            return this.optional(element) || /^-?(?:\d+|\d{1,3}(?:[\s\.,]\d{3})+)(?:[\.,]\d+)?$/.test(value);
+        }
+    </script>
 }
+

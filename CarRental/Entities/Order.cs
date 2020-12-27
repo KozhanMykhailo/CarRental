@@ -53,10 +53,12 @@ namespace CarRental.Entities
 		/// </summary>
 		[Required(ErrorMessage = "Укажите длительность в часах")]
 		[Display(Name = "Срок аренды")]
+		[Range(typeof(decimal), "0,5", "100000,100", ErrorMessage = "Наименьшие значение 0,5 , в качестве разделителя дробной и целой части используется запятая")]
 		public decimal RentalTime { get; set; }
 		/// <summary>
 		/// Статус заказа
 		/// </summary>
+		[Display(Name = "Статус")]
 		public StatusOrder Status { get; set; }
 		/// <summary>
 		/// Описание . Менеджеру для комментариев
