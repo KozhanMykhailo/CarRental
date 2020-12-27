@@ -33,7 +33,6 @@ namespace CarRental.Models
 				_context.SaveChanges();
 			}
 		}
-
 		public bool DeleteUser(int userId)
 		{
 			var userInDb = _context.Users.Where(w => w.Id == userId).FirstOrDefault();
@@ -45,7 +44,6 @@ namespace CarRental.Models
 			}
 			return false;
 		}
-
 		public bool SaveUser(User user)
 		{
 			if (user.Id == 0)

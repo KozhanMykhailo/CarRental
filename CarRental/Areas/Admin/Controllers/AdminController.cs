@@ -52,7 +52,6 @@ namespace CarRental.Areas.Admin.Controllers
 		[HttpGet]
 		public IActionResult GetAllCars()
 		{
-			//return View(_context.Cars.ToList());
 			return View(_carRepository.Cars);
 		}
 		[Route("Admin/CreateCar")]
@@ -71,7 +70,6 @@ namespace CarRental.Areas.Admin.Controllers
 					return RedirectToAction("GetAllCars");
 			}
 			return View(newcar);
-
 		}
 		[Route("Admin/EditCar")]
 		[HttpGet]
@@ -83,7 +81,6 @@ namespace CarRental.Areas.Admin.Controllers
 				return View(car);
 			}
 			return RedirectToAction("GetAllCars");
-
 		}
 		[Route("Admin/EditCar")]
 		[HttpPost]
@@ -95,7 +92,6 @@ namespace CarRental.Areas.Admin.Controllers
 					return RedirectToAction("GetAllCars");				
 			}
 			return View(car);
-
 		}
 		[Route("Admin/DeleteCar")]
 		[HttpGet]
@@ -107,19 +103,16 @@ namespace CarRental.Areas.Admin.Controllers
 				return View(car);
 			}
 			return RedirectToAction("GetAllCars");
-
 		}
 		[Route("Admin/DeleteCar")]
 		[HttpPost]
 		public IActionResult DeleteCar(Car car)
-		{
-			
+		{			
 			if (_carRepository.DeleteCar(car.Id))
 			{				
 				return RedirectToAction("GetAllCars");
 			}
 			return NotFound();
-
 		}
 		[Route("Admin/DetailsCar")]
 		[HttpGet]
@@ -155,7 +148,6 @@ namespace CarRental.Areas.Admin.Controllers
 				return RedirectToAction("GetAllManagers");
 			}
 			return View(newmanager);
-
 		}
 		[Route("Admin/DeleteManager")]
 		[HttpPost]

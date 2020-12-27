@@ -12,7 +12,6 @@
     <title>Создание менеджера</title>
 </head>
 <body>
-
     <h4>Новый менеджер</h4>
     <hr />
     @using (Html.BeginForm(FormMethod.Post))
@@ -32,6 +31,5 @@
     <div>
         @Html.ActionLink("К списку менеджеров", "GetAllManagers", new { area = "Admin", controller = "Admin" }, new { @class = "btn btn-outline-info" })
     </div>
-
 </body>
 </html>

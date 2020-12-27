@@ -15,7 +15,6 @@ namespace CarRental.Models
 			_context = context;
 		}
 		public IEnumerable<Bill> Bills => _context.Bills;
-
 		public bool SaveBill(Bill bill)
 		{
 			if (bill.Id == 0)
@@ -40,11 +39,7 @@ namespace CarRental.Models
 					dbBill.UserId = bill.UserId;
 				}
 			}
-			//var result = _context.SaveChanges();
-			//if (result > 0)
-				return true;
-			//else
-				//return false;
+			return true;
 		}
 	}
 }

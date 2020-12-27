@@ -27,7 +27,6 @@ namespace CarRental.Models
 			}
 			return false;
 		}
-
 		public bool SaveCar(Car car)
 		{
 			if (car.Id == 0)

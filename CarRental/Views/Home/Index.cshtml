@@ -13,7 +13,6 @@
         font-weight: normal;
         font-style: normal
     }
-
     .glyphicon {
         display: inline-block;
         font: normal normal normal 14px/1 FontAwesome;
@@ -22,11 +21,9 @@
         -webkit-font-smoothing: antialiased;
         -moz-osx-font-smoothing: grayscale
     }
-
     .glyphicon-chevron-right:before {
         content: "\f054";
     }
-
     .glyphicon-chevron-left:before {
         content: "\f053";
     }
@@ -34,7 +31,6 @@
 <h1>Список доступных авто для аренды</h1>
 @using (Html.BeginForm("Index", "Home", FormMethod.Get,new { @Class = "form-inline" }))
 {
-    
         <label class="mr-sm-2 mb-1">Модель</label>
         @Html.TextBox("model",null,null,new {@Class="form-control mr-sm-2 mb-2 mb-sm-0" })
     
@@ -87,7 +83,6 @@
                     @Html.ActionLink("Оформить заказ", "CreateOrder", "Home", new { carId = u.Id }, new { @class = "btn btn-outline-info" })
                 }
             </td>
-
         </tr>
     }
 </table>

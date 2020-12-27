@@ -11,7 +11,6 @@ namespace CarRental.Models
         public SortState NameSort { get; private set; } // значение для сортировки по наименованию
         public SortState PriceSort { get; private set; }    // значение для сортировки по цене
         public SortState Current { get; private set; }     // текущее значение сортировки
-
         public SortViewModel(SortState sortOrder)
         {
             NameSort = sortOrder == SortState.NameAsc ? SortState.NameDesc : SortState.NameAsc;

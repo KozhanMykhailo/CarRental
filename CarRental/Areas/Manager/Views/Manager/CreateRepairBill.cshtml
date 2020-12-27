@@ -23,13 +23,11 @@
                 <label>Цена за ремонт</label>
                 @Html.EditorFor(bill => bill.ToPay)
                 @Html.ValidationMessageFor(bill=>bill.ToPay)
-            </div>
-            
+            </div>            
             <input type="submit" value="Создать" class="btn btn-outline-success" />
         }
     </div>
 </div>
-
 <div>
     @Html.ActionLink("К списку заказов", "Orders", new { area = "Manager", controller = "Manager" }, new { @class = "btn btn-outline-info" })
 </div>

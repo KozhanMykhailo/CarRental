@@ -4,9 +4,7 @@
     ViewData["Title"] = "GetAllCars";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-
 <h1>Все доступные предложения</h1>
-
 <p>
     @Html.ActionLink("Создать новое предложение", "CreateCar",new {area = "Admin", controller = "Admin"}, new { @class = "btn btn-outline-info" })
 </p>
@@ -66,8 +64,7 @@
                 @Html.ActionLink("Details", "DetailsCar", new { area = "Admin", controller = "Admin", id = item.Id } , new { @class = "btn btn-outline-warning" }) |
                 @Html.ActionLink("Delete", "DeleteCar", new { area = "Admin", controller = "Admin", id = item.Id }, new { @class = "btn btn-outline-danger" }) 
             </td>
-        </tr>
-}
+        </tr>}
     </tbody>
 </table>
 <div>

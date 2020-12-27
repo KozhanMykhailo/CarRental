@@ -35,8 +35,7 @@ namespace CarRental.Areas.Manager.Controllers
         [HttpGet]
         public IActionResult CreateBill(int orderId)
         {
-            var newBill = new Bill();
-            
+            var newBill = new Bill();            
             var currOrder = _orderRepository.Orders.Where(w => w.Id == orderId).FirstOrDefault();
             newBill.UserId = currOrder.UserId;
             newBill.OrderId = orderId;
@@ -93,7 +92,7 @@ namespace CarRental.Areas.Manager.Controllers
         [HttpPost]
         public IActionResult CreateRepairBill(Bill bill)
         {
-            var newBill = bill;          
+            var newBill = bill;
             var orderId = int.Parse(HttpContext.Session.GetString("OrderId"));
             var currOrder = _orderRepository.Orders.Where(w => w.Id == orderId).FirstOrDefault();
             newBill.UserId = currOrder.UserId;

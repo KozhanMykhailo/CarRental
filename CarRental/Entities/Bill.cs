@@ -40,7 +40,6 @@ namespace CarRental.Entities
 		/// Банковские реквизиты
 		/// </summary>
 		[StringLength(30, ErrorMessage = "Длина описания должна быть до 4000 символов")]
-		public string AccountDetails { get; set; }
-		
+		public string AccountDetails { get; set; }		
 	}
 }

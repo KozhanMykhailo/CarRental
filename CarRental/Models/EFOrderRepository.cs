@@ -14,9 +14,7 @@ namespace CarRental.Models
 		{
 			_context = context;
 		}
-
 		public IEnumerable<Order> Orders => _context.Orders;
-
 		public void SaveOrder(Order order)
 		{
 			if (order.Id == 0)

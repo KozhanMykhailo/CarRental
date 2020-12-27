@@ -9,6 +9,9 @@ namespace CarRental.Abstract
 {
 	public interface IRoleRepository
 	{
+		/// <summary>
+		/// Роли 
+		/// </summary>
 		DbSet<Role> Roles { get; }
 	}
 }

@@ -15,7 +15,6 @@ using Microsoft.Extensions.Logging;
 
 namespace CarRental.Controllers
 {
-
 	public class HomeController : Controller
 	{
 		private readonly ILogger<HomeController> _logger;
@@ -34,7 +33,6 @@ namespace CarRental.Controllers
 		public IActionResult Index(ClassCar? clas, string model, int page = 1, SortState sortOrder = SortState.NameAsc)
 		{
 			int pageSize = 5;
-
 			//фильтрация
 			IEnumerable<Car> cars = _carRepository.Cars;
 			if (clas == ClassCar.All && string.IsNullOrEmpty(model))
@@ -56,7 +54,6 @@ namespace CarRental.Controllers
 					cars = cars.Where(p => p.Model.Contains(model) || p.Model.StartsWith(model));
 				}
 			}
-
 			// сортировка
 			switch (sortOrder)
 			{
@@ -72,11 +69,9 @@ namespace CarRental.Controllers
 					cars = cars.OrderBy(s => s.Name);
 					break;
 			}
-
 			// пагинация
 			var count = cars.Count();
 			var items = cars.Skip((page - 1) * pageSize).Take(pageSize).ToList();
-
 			// формируем модель представления
 			IndexViewModel viewModel = new IndexViewModel
 			{
@@ -118,7 +113,6 @@ namespace CarRental.Controllers
 				}
 				else
 					return RedirectToRoute(new { controller = "Account", action = "SignOut" });
-				
 			}
 			return View(order);
 		}

@@ -17,8 +17,7 @@
 <div>
     <h4>Менеджер</h4>
     <hr />
-    <dl class="row">
-        
+    <dl class="row">        
         <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.Email)
         </dt>
@@ -31,8 +30,7 @@
         <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.Password)
         </dd>        
-    </dl>
-    
+    </dl>    
     <form asp-action="DeleteManager" method="post">
         <input type="submit" value="Удалить" class="btn btn-danger" /> |
         @Html.ActionLink("К списку менеджеров", "GetAllManagers", new { area = "Admin", controller = "Admin" }, new { @class = "btn btn-outline-info" })

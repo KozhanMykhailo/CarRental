@@ -4,11 +4,8 @@
     ViewData["Title"] = "CreateCar";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-
 <h1>Создание предложения</h1>
-
 <h4>Введите данные</h4>
-
 @using (Html.BeginForm())
 {  
     <div class="form-group">
@@ -47,7 +44,6 @@
 <div>
     @Html.ActionLink("К списку доступных", "GetAllCars", new { area = "Admin", controller = "Admin" } , new { @class = "btn btn-outline-info" });
 </div>
-
 
 @section scripts{
 

@@ -9,6 +9,9 @@ namespace CarRental.Abstract
 {
 	public interface IOrderRepository
 	{
+		/// <summary>
+		/// Заказы клиентов
+		/// </summary>
 		IEnumerable<Order> Orders { get; }
 		void SaveOrder(Order order);
 	}

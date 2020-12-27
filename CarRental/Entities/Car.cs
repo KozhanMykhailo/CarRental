@@ -62,7 +62,6 @@ namespace CarRental.Entities
 		/// Тип изображения
 		/// </summary>
 		[HiddenInput(DisplayValue = false)]
-		public string ImageMimeType { get; set; }
-		
+		public string ImageMimeType { get; set; }		
 	}
 }
