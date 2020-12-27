@@ -1,0 +1,68 @@
+﻿@model CarRental.Entities.Car
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>EditCar</title>
+</head>
+<body>
+
+<h4>Car</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        @using (Html.BeginForm())
+        {
+            @Html.HiddenFor(car => car.Id);
+            <div class="form-group">
+                <label>Наименование</label>
+                @Html.EditorFor(car => car.Name)
+                @Html.ValidationMessageFor(car => car.Name)
+            </div>
+            <div class="form-group">
+                <label>Модель</label>
+                @Html.EditorFor(car => car.Model)
+                @Html.ValidationMessageFor(car => car.Model)
+            </div>
+            <div class="form-group">
+                <label>Класс авто</label>
+                @Html.DropDownListFor(car => car.Class,
+                     new SelectList(Enum.GetNames(typeof(CarRental.Entities.ClassCar))))
+                @Html.ValidationMessageFor(car => car.Class)
+            </div>
+            <div class="form-group">
+                <label>Цвет</label>
+                @Html.EditorFor(car => car.Color)
+                @Html.ValidationMessageFor(car => car.Color)
+            </div>
+            <div class="form-group">
+                <label>Описание</label>
+                @Html.EditorFor(car => car.Description)
+                @Html.ValidationMessageFor(car => car.Description)
+            </div>
+            <div class="form-group">
+                <label>Цена</label>
+                @Html.EditorFor(car => car.RentalPrice)
+                @Html.ValidationMessageFor(car => car.RentalPrice)
+            </div>
+            <input type="submit" value="Сохранить" class="btn btn-outline-success"/>
+        }
+    </div>
+</div>
+
+<div>
+    @Html.ActionLink("К списку доступных", "GetAllCars", new { area = "Admin", controller = "Admin" }, new { @class = "btn btn-outline-info" })
+    @Html.ActionLink("Меню", "DefaultAction", new { area = "Admin", controller = "Admin" }, new { @class = "btn btn-outline-info" })
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
+</body>
+</html>

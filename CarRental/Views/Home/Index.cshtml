@@ -1,8 +1,118 @@
-﻿@{
+﻿@using CarRental.Models
+@using CarRental.Entities
+@using System.Security.Claims;
+@model IndexViewModel
+
+@{
     ViewData["Title"] = "Home Page";
 }
+<style>
+    @@font-face {
+        font-family: 'FontAwesome';
+        src: url('https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/fonts/fontawesome-webfont.woff2') format('woff2'), url('https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/fonts/fontawesome-webfont.woff') format('woff'), url('https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/fonts/fontawesome-webfont.ttf') format('truetype');
+        font-weight: normal;
+        font-style: normal
+    }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
+    .glyphicon {
+        display: inline-block;
+        font: normal normal normal 14px/1 FontAwesome;
+        font-size: inherit;
+        text-rendering: auto;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale
+    }
+
+    .glyphicon-chevron-right:before {
+        content: "\f054";
+    }
+
+    .glyphicon-chevron-left:before {
+        content: "\f053";
+    }
+</style>
+<h1>Список доступных авто для аренды</h1>
+@using (Html.BeginForm("Index", "Home", FormMethod.Get,new { @Class = "form-inline" }))
+{
+    
+        <label class="mr-sm-2 mb-1">Модель</label>
+        @Html.TextBox("model",null,null,new {@Class="form-control mr-sm-2 mb-2 mb-sm-0" })
+    
+        <label class="mr-sm-2 mb-1">Класс</label>
+        @Html.DropDownList("clas", new SelectList(Enum.GetNames(typeof(CarRental.Entities.ClassCar))),new { @Class = "form-control mr-sm-2 mb-2 mb-sm-0" })
+   
+    <input type="submit" value="Фильтр" class="btn btn-outline-dark" />
+}
+<table class="table">
+    <tr>
+        <th>
+            <a asp-action="Index"
+               asp-route-sortOrder="@(Model.SortViewModel.NameSort)"
+               asp-route-name="@(Model.FilterViewModel.SelectedModel)"
+               asp-route-model="@(Model.FilterViewModel.SelectedClass)">Наименование</a>
+        </th>
+        <th>
+            <a asp-action="Index"
+               asp-route-sortOrder="@(Model.SortViewModel.PriceSort)"
+               asp-route-name="@(Model.FilterViewModel.SelectedModel)"
+               asp-route-model="@(Model.FilterViewModel.SelectedClass)">Цена</a>
+        </th>
+        <th>
+            <p>Цвет</p>
+        </th>
+        <th>
+            <p>Модель</p>
+        </th>
+        <th>
+            <p>Класс</p>
+        </th>
+        <th>
+            <p>Описание</p>
+        </th>
+        <th>
+        </th>
+    </tr>
+    @foreach (Car u in Model.Cars)
+    {
+        <tr>
+            <td>@u.Name</td>
+            <td>@u.RentalPrice</td>
+            <td>@u.Color</td>
+            <td>@u.Model</td>
+            <td>@u.Class</td>
+            <td>@u.Description</td>
+            <td>
+                @if (User.IsInRole("user"))
+                {
+                    @Html.ActionLink("Оформить заказ", "CreateOrder", "Home", new { carId = u.Id }, new { @class = "btn btn-outline-info" })
+                }
+            </td>
+
+        </tr>
+    }
+</table>
+@if (Model.PageViewModel.HasPreviousPage)
+{
+    <a asp-action="Index"
+       asp-route-page="@(Model.PageViewModel.PageNumber - 1)"
+       asp-route-name="@(Model.FilterViewModel.SelectedModel)"
+       asp-route-model="@(Model.FilterViewModel.SelectedClass)"
+       asp-route-sortorder="@(Model.SortViewModel.Current)"
+       class="btn  btn-outline-dark">
+        <i class="glyphicon glyphicon-chevron-left"></i>
+        Назад
+    </a>
+}
+@if (Model.PageViewModel.HasNextPage)
+{
+    <a asp-action="Index"
+       asp-route-page="@(Model.PageViewModel.PageNumber + 1)"
+       asp-route-name="@(Model.FilterViewModel.SelectedModel)"
+       asp-route-model="@(Model.FilterViewModel.SelectedClass)"
+       asp-route-sortorder="@(Model.SortViewModel.Current)"
+       class="btn btn-outline-dark">
+        Вперед
+        <i class="glyphicon glyphicon-chevron-right"></i>
+    </a>
+}
+

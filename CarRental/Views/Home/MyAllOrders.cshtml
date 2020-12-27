@@ -1,0 +1,101 @@
+﻿@model IEnumerable<CarRental.Entities.Order>
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Мои заказы</title>
+</head>
+<body>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.PassportData)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.FirstName)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.LastName)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.INN)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.OptionDriver)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.RentalTime)
+                </th>                
+                <th>
+                    @Html.DisplayNameFor(model => model.Comment)
+                </th>
+                <th>
+                    <p>
+                        Доступные действия
+                    </p>
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.PassportData)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.FirstName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.LastName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.INN)
+                    </td>
+                    <td>
+                        @if (item.OptionDriver == CarRental.Entities.OptionsDriver.Off)
+                        {
+                            <p>Без водителя</p>
+                        }
+                        @if (item.OptionDriver == CarRental.Entities.OptionsDriver.On)
+                        {
+                            <p>С водителем</p>
+                        }
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.RentalTime)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Comment)
+                    </td>
+                    <td>
+                        @if (item.Status == CarRental.Entities.StatusOrder.Сanceled)
+                        {
+                            <p class="text-danger">ОТМЕНЕН</p>
+                        }
+                        @if (item.Status == CarRental.Entities.StatusOrder.Completed)
+                        {
+                            <p class="text-success">ВЫПОЛНЕН</p>
+                        }
+                        @if (item.Status == CarRental.Entities.StatusOrder.Approved)
+                        {
+                            @Html.ActionLink("Оплатить счет", "PayBill", new {  controller = "Home", orderId = item.Id }, new { @class = "btn btn-outline-success" });
+                        }
+                        @if (item.Status == CarRental.Entities.StatusOrder.Approval)
+                        {
+                            <p class="text-info">Ожидание подтверждения менеджера</p>
+                        }
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</body>
+</html>

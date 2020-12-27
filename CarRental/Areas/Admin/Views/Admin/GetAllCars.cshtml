@@ -1,0 +1,75 @@
+﻿@model IEnumerable<CarRental.Entities.Car>
+
+@{
+    ViewData["Title"] = "GetAllCars";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Все доступные предложения</h1>
+
+<p>
+    @Html.ActionLink("Создать новое предложение", "CreateCar",new {area = "Admin", controller = "Admin"}, new { @class = "btn btn-outline-info" })
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Id)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Color)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Model)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.RentalPrice)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Class)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Description)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Id)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Color)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Model)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.RentalPrice)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Class)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Description)
+            </td>
+            <td>
+                @Html.ActionLink("Отредактировать", "EditCar", new { area = "Admin", controller = "Admin", id = item.Id }, new { @class = "btn btn-outline-secondary" }) |
+                @Html.ActionLink("Details", "DetailsCar", new { area = "Admin", controller = "Admin", id = item.Id } , new { @class = "btn btn-outline-warning" }) |
+                @Html.ActionLink("Delete", "DeleteCar", new { area = "Admin", controller = "Admin", id = item.Id }, new { @class = "btn btn-outline-danger" }) 
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
+<div>
+    @Html.ActionLink("Меню", "DefaultAction", new { area = "Admin", controller = "Admin" }, new { @class = "btn btn-outline-info" })
+</div>

@@ -1,7 +1,9 @@
-﻿using CarRental.Entities;
+﻿using CarRental.Abstract;
+using CarRental.Entities;
 using CarRental.Models;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -14,10 +16,12 @@ namespace CarRental.Controllers
 {
 	public class AccountController : Controller
 	{
-        private ApplicationContext _context;
-        public AccountController(ApplicationContext context)
+        private IUserRepository _userRepository;
+        private IRoleRepository _roleRepository;
+        public AccountController(IUserRepository userRepository, IRoleRepository roleRepository)
         {
-            _context = context;
+            _userRepository = userRepository;
+            _roleRepository = roleRepository;
         }
         [HttpGet]
         public IActionResult Registration()
@@ -30,24 +34,21 @@ namespace CarRental.Controllers
         {
             if (ModelState.IsValid)
             {
-                User user = await _context.Users.FirstOrDefaultAsync(u => u.Email == model.Email);
+                User user = await _userRepository.AllUsers.FirstOrDefaultAsync(u => u.Email == model.Email);
                 if (user == null)
                 {
                     // добавляем пользователя в бд
-                    user = new User { Email = model.Email, Password = model.Password ,Id = _context.Users.Max(m=>m.Id) + 1};
-                    Role userRole = await _context.Roles.FirstOrDefaultAsync(r => r.Name == "user");
+                    user = new User() { Email = model.Email, Password = model.Password, Lock = 0 };
+                    Role userRole = await _roleRepository.Roles.FirstOrDefaultAsync(r => r.Name == "user");
                     if (userRole != null)
                     {
                         user.Role = userRole;
                         user.RoleId = userRole.Id;
+                        _userRepository.SaveUser(user);
+                        await Authenticate(user); // аутентификация
+                        return RedirectToAction("Index", "Home");
                     }
-
-                    _context.Users.Add(user);
-                    await _context.SaveChangesAsync();
-
-                    await Authenticate(user); // аутентификация
-
-                    return RedirectToAction("Index", "Home");
+                    return NotFound();
                 }
                 else
                     ModelState.AddModelError("", "Некорректные логин и(или) пароль");
@@ -65,18 +66,24 @@ namespace CarRental.Controllers
         {
             if (ModelState.IsValid)
             { 
-                User user = await _context.Users
+                User user = await _userRepository.AllUsers
                     .Include(u => u.Role)
                     .FirstOrDefaultAsync(u => u.Email == model.Email && u.Password == model.Password);
                 if (user != null)
                 {
                     await Authenticate(user); // аутентификация
-                    if (user.RoleId == _context.Roles.Where(w => w.Name == "admin").Select(s => s.Id).FirstOrDefault())
+                    if (user.RoleId == _roleRepository.Roles.Where(w => w.Name == "admin").Select(s => s.Id).FirstOrDefault())
+                        return RedirectToRoute(new { area = "Admin",controller = "Admin", action = "DefaultAction" });
+                    if (user.RoleId == _roleRepository.Roles.Where(w => w.Name == "manager").Select(s => s.Id).FirstOrDefault())
+                        return RedirectToRoute(new { area = "Manager", controller = "Manager", action = "Orders" });
+                    if (user.RoleId == _roleRepository.Roles.Where(w => w.Name == "user").Select(s => s.Id).FirstOrDefault())
+                    {
+                        if (user.Lock == 1)
+                            return NotFound();
+                        HttpContext.Session.SetString("CurrentUserId", user.Id.ToString());
+
                         return RedirectToAction("Index", "Home");
-                    if (user.RoleId == _context.Roles.Where(w => w.Name == "manager").Select(s => s.Id).FirstOrDefault())
-                        return RedirectToAction("Index", "Home");
-                    if (user.RoleId == _context.Roles.Where(w => w.Name == "user").Select(s => s.Id).FirstOrDefault())
-                        return RedirectToAction("Index", "Home");
+                    }    
                 }
                 ModelState.AddModelError("", "Некорректные логин и(или) пароль");
             }
@@ -95,6 +102,11 @@ namespace CarRental.Controllers
                 ClaimsIdentity.DefaultRoleClaimType);
             // установка аутентификационных куки
             await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(id));
+        }
+        public IActionResult SignOut()
+        {
+            HttpContext.SignOutAsync();
+            return RedirectToAction("Index", "Home");
         }
     }
 }

@@ -1,0 +1,56 @@
+﻿@model CarRental.Entities.Car
+
+@{
+    ViewData["Title"] = "CreateCar";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Создание предложения</h1>
+
+<h4>Введите данные</h4>
+
+@using (Html.BeginForm())
+{  
+    <div class="form-group">
+        <label>Наименование</label>
+        @Html.TextBoxFor(car => car.Name)
+        @Html.ValidationMessageFor(car => car.Name)
+    </div>
+    <div class="form-group">
+        <label>Модель</label>
+        @Html.TextBoxFor(car => car.Model)
+        @Html.ValidationMessageFor(car => car.Model)
+    </div>
+    <div class="form-group">
+        <label>Класс авто</label>
+        @Html.DropDownListFor(car => car.Class,
+             new SelectList(Enum.GetNames(typeof(CarRental.Entities.ClassCar))))
+        @Html.ValidationMessageFor(car => car.Class)
+    </div>
+    <div class="form-group">
+        <label>Цвет</label>
+        @Html.TextBoxFor(car => car.Color)
+        @Html.ValidationMessageFor(car => car.Color)
+    </div>
+    <div class="form-group">
+        <label>Описание</label>
+        @Html.TextBoxFor(car => car.Description)
+        @Html.ValidationMessageFor(car => car.Description)
+    </div>
+    <div class="form-group">
+        <label>Цена</label>
+        @Html.TextBoxFor(car => car.RentalPrice)
+        @Html.ValidationMessageFor(car => car.RentalPrice)
+    </div>
+    <input type="submit" value="Создать" class="btn btn-outline-success" />
+}
+<div>
+    @Html.ActionLink("К списку доступных", "GetAllCars", new { area = "Admin", controller = "Admin" } , new { @class = "btn btn-outline-info" });
+</div>
+
+
+@section scripts{
+
+    <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+}

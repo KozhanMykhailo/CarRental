@@ -1,4 +1,5 @@
-﻿<!DOCTYPE html>
+﻿@using System.Security.Claims;
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -6,26 +7,61 @@
     <title>@ViewData["Title"] - CarRental</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" />
+    <style>
+        .field-validation-error {
+            color: #f00;
+        }
+
+        .validation-summary-errors {
+            color: #f00;
+            font-weight: bold;
+        }
+
+        .input-validation-error {
+            border: 2px solid #f00;
+            background-color: #fee;
+        }
+
+        input[type="checkbox"].input-validation-error {
+            outline: 2px solid #f00;
+        }
+    </style>
 </head>
 <body>
     <header>
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
             <div class="container">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">CarRental</a>
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
-                    <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-                        </li>
-                    </ul>
-                </div>
+                @if (User.IsInRole("user"))
+                {
+                    <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">CarRental</a>
+                    <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="MyAllOrders">Мои заказы</a>
+                }@if (User.IsInRole("admin"))
+                {
+                    <a class="navbar-brand" asp-area="Admin" asp-controller="Admin" asp-action="DefaultAction">Админ панель</a>
+                    <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">CarRental</a>
+                }@if (User.IsInRole("manager"))
+                {
+                    <a class="navbar-brand" asp-area="Manager" asp-controller="Manager" asp-action="Orders">Заказы покупателей</a>
+                    <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">CarRental</a>
+                }
+                @if (User.IsInRole("user") || User.IsInRole("admin") || User.IsInRole("manager"))
+                {
+                    <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
+                        <ul class="navbar-nav flex-grow-1">
+                            <li class="nav-item">
+                                @if (User.IsInRole("user") || User.IsInRole("admin") || User.IsInRole("manager"))
+                                {
+                                    <a class="btn btn-outline-danger" asp-area="" asp-controller="Account" asp-action="SignOut">Выйти с аккаунта</a>
+                                }
+                            </li>
+                        </ul>
+                    </div>
+                }
+                else
+                {
+                    <a class="btn btn-outline-success" asp-area="" asp-controller="Account" asp-action="Login">Вход/Регистрация</a>
+                }
+
             </div>
         </nav>
     </header>
@@ -37,7 +73,7 @@
 
     <footer class="border-top footer text-muted">
         <div class="container">
-            &copy; 2020 - CarRental - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+            &copy; 2020 - CarRental - <a asp-area="" asp-controller="Home" asp-action="Index">OOO</a>
         </div>
     </footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>

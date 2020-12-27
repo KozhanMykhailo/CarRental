@@ -1,0 +1,20 @@
+﻿
+@{
+    ViewData["Title"] = "DefaultAction";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+    <div class="text-center mr-5" >
+        <div>
+            <h1>Menu</h1>
+        </div>
+        <div>
+            @Html.ActionLink("Просмотр зарегистрированных пользователей", "Users", new { area = "Admin", controller = "Admin" }, new { @class = "btn btn-info" })
+        </div>
+        <div>
+            @Html.ActionLink("Просмотр автопарка", "GetAllCars", new { area = "Admin", controller = "Admin" }, new { @class = "btn btn-info" })
+        </div>
+        <div>
+            @Html.ActionLink("Управление Менеджерами", "GetAllManagers", new { area = "Admin", controller = "Admin" }, new { @class = "btn btn-info" })
+        </div>
+    </div>
+

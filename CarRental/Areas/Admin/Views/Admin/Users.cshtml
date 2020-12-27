@@ -1,0 +1,41 @@
+﻿@model IEnumerable<CarRental.Entities.User>
+
+@{
+    ViewData["Title"] = "Users";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Зарегистрированые пользователи</h1>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Email)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Password)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Email)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Password)
+                </td>
+                <td>
+                    @Html.ActionLink(item.Lock == 0 ? "Заблокировать" : "Разблокировать", "ChangeLock", new { area = "Admin", controller = "Admin", id = item.Id }, new { @class = "btn btn-outline-warning" }) 
+                </td>
+            </tr>
+        }        
+    </tbody>
+</table>
+<div>
+    @Html.ActionLink("Меню", "DefaultAction", new { area = "Admin", controller = "Admin" }, new { @class = "btn btn-outline-info" })
+</div>

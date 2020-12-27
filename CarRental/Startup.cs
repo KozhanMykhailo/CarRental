@@ -2,6 +2,10 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Autofac;
+using Autofac.Extensions.DependencyInjection;
+using CarRental.Abstract;
+using CarRental.Entities;
 using CarRental.Models;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
@@ -24,7 +28,7 @@ namespace CarRental
 		public IConfiguration Configuration { get; }
 
 		// This method gets called by the runtime. Use this method to add services to the container.
-		public void ConfigureServices(IServiceCollection services)
+		public IServiceProvider ConfigureServices(IServiceCollection services)
 		{
 			string connection = "Server=.;Database=CarRental;Trusted_Connection=True;";
 			services.AddDbContext<ApplicationContext>(options => options.UseSqlServer(connection));
@@ -36,6 +40,21 @@ namespace CarRental
 					options.AccessDeniedPath = new Microsoft.AspNetCore.Http.PathString("/Account/Login");
 				});
 			services.AddControllersWithViews();
+			services.AddSession();
+			services.AddControllers();
+
+
+			var builder = new ContainerBuilder();
+			builder.RegisterType<EFCarRepository>().As<ICarRepository>();
+			builder.RegisterType<EFUserRepository>().As<IUserRepository>();
+			builder.RegisterType<EFRolesRepository>().As<IRoleRepository>();
+			builder.RegisterType<EFOrderRepository>().As<IOrderRepository>();
+			builder.RegisterType<EFBillRepository>().As<IBillRepository>();
+			builder.Populate(services);
+
+
+			var container = builder.Build();
+			return new AutofacServiceProvider(container);
 		}
 
 		// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -58,6 +77,7 @@ namespace CarRental
 
 			app.UseAuthentication();
 			app.UseAuthorization();
+			app.UseSession();
 
 
 			app.UseEndpoints(endpoints =>
@@ -67,7 +87,7 @@ namespace CarRental
 				//	pattern: "{controller=Home}/{action=Index}/{id?}");
 				endpoints.MapControllerRoute(
 					name: "default",
-					pattern: "{controller=Account}/{action=Login}");
+					pattern: "{controller=Home}/{action=Index}");
 			});
 		}
 	}
