@@ -1,0 +1,65 @@
+﻿1. Необходимо создать БАЗУ под названием [CarRental] - я создавал вручную!!!
+2. Выполнить скрипт для создания Таблиц и инсерта стартовых пользователей!
+/*
+use CarRental
+create table [dbo].[Cars]
+(
+[Id] int,
+[Name] NVARCHAR(30),
+[Color] NVARCHAR(30),
+[Model] NVARCHAR(30),
+[RentalPrice] DECIMAL(16,5),
+[Class] INT,
+[Description] NVARCHAR(MAX),
+[ImageData] varbinary(MAX),
+[ImageMimeType] VARCHAR(50)
+)
+
+create table [dbo].[Roles]
+(
+[Id] int,
+[Name] NVARCHAR(30),
+)
+
+
+create table [dbo].[Users]
+(
+[Id] int,
+[Email] NVARCHAR(30),
+[Password] NVARCHAR(30),
+[RoleId] int,
+)
+
+create table [dbo].[Orders]
+(
+[Id] int,
+[PassportData] NVARCHAR(30),
+[FirstName] NVARCHAR(30),
+[LastName] NVARCHAR(30),
+[Inn] int,
+[OptionDriver] INT,
+[RentalTime] DECIMAL(16,5),
+[Status] INT,
+[Comment] NVARCHAR(MAX),
+[UserId] int,
+)
+
+create table [dbo].[Bills]
+(
+[Id] int,
+[UserId] int,
+[OrderId] int,
+[TypeBill] int,
+[ToPay] DECIMAL(16,5),
+[AccountDetails] NVARCHAR(30)
+)
+*/
+/*
+use CarRental
+insert into [CarRental].[dbo].[Roles] 
+values (1,'admin'),(2,'user'),(3,'manager')
+
+insert into [CarRental].[dbo].[Users]
+values (1,'admin@gmail.com','1',1), (2,'manager@gmail.com','1',3)
+*/
+
