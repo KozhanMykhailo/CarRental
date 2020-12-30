@@ -79,8 +79,8 @@ namespace CarRental.Areas.Admin.Controllers
 		{
 			var car = _carRepository.Cars.Where(w => w.Id == id).FirstOrDefault();
 			if (car != null)
-			{
-				var stream = new MemoryStream(car.ImageData);
+			{				
+				//var stream = new MemoryStream(car.ImageData);
 				return View(new CarViewModel() { 
 					Name = car.Name,
 					RentalPrice = car.RentalPrice,
