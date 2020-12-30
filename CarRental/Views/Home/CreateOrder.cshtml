@@ -1,4 +1,6 @@
 ﻿@model CarRental.Entities.Order
+@using CarRental.Entities
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
 
 @{
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -17,45 +19,47 @@
     <hr />
     <div class="row">
         <div class="col-md-4">
-            @using (Html.BeginForm(FormMethod.Post))
-            {
+            <form asp-action="CreateOrder" method="post">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                 <div class="form-group">
-                    <label>Данные паспорта</label>
-                    @Html.EditorFor(order => order.PassportData)
-                    @Html.ValidationMessageFor(order => order.PassportData)
+                    <label asp-for="PassportData" class="control-label"></label>
+                    <input asp-for="PassportData" class="form-control" />
+                    <span asp-validation-for="PassportData" class="text-danger"></span>
                 </div>
                 <div class="form-group">
-                    <label>Имя</label>
-                    @Html.EditorFor(order => order.FirstName)
-                    @Html.ValidationMessageFor(order => order.FirstName)
+                    <label asp-for="FirstName" class="control-label"></label>
+                    <input asp-for="FirstName" class="form-control" />
+                    <span asp-validation-for="FirstName" class="text-danger"></span>
                 </div>
                 <div class="form-group">
-                    <label>Фамилия</label>
-                    @Html.EditorFor(order => order.LastName)
-                    @Html.ValidationMessageFor(order => order.LastName)
+                    <label asp-for="LastName" class="control-label"></label>
+                    <input asp-for="LastName" class="form-control" />
+                    <span asp-validation-for="LastName" class="text-danger"></span>
                 </div>
                 <div class="form-group">
-                    <label>ИНН</label>
-                    @Html.EditorFor(order => order.INN)
-                    @Html.ValidationMessageFor(order => order.INN)
+                    <label asp-for="INN" class="control-label"></label>
+                    <input asp-for="INN" class="form-control" />
+                    <span asp-validation-for="INN" class="text-danger"></span>
                 </div>
                 <div class="form-group">
-                    <label>Услуги водителя</label>
-                    @Html.DropDownListFor(order => order.OptionDriver,
-                         new SelectList(Enum.GetNames(typeof(CarRental.Entities.OptionsDriver))))
-                    @Html.ValidationMessageFor(order => order.OptionDriver)
+                    <label asp-for="OptionDriver" class="control-label"></label>
+                    <select asp-for="OptionDriver" asp-items="Html.GetEnumSelectList<OptionsDriver>()"></select>
+                    <span asp-validation-for="OptionDriver" class="text-danger"></span>
                 </div>
                 <div class="form-group">
-                    <label>Срок ареды</label>
-                    @Html.EditorFor(order => order.RentalTime)
-                    @Html.ValidationMessageFor(order => order.RentalTime)
+                    <label asp-for="RentalTime" class="control-label"></label>
+                    <input asp-for="RentalTime" class="form-control" />
+                    <span asp-validation-for="RentalTime" class="text-danger"></span>
                 </div>
-                <input type="submit" value="Создать" class="btn btn-outline-success" />
-            }
+                <div class="form-group">
+                    <input type="submit" value="Создать" class="btn btn-outline-success" />
+                </div>
+            </form>
         </div>
     </div>
+
     <div>
-        @Html.ActionLink("К списку авто", "Index", new { controller = "Home" }, new { @class = "btn btn-outline-info" })
+        <a asp-action="MyAllOrders" asp-controller="Home" class = "btn btn-outline-info">К списку доступных</a>
     </div>
 
     @section Scripts {

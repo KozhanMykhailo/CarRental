@@ -1,4 +1,5 @@
 ﻿using CarRental.Entities;
+using CarRental.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,7 +10,7 @@ namespace CarRental.Abstract
 	public interface ICarRepository
 	{
 		IEnumerable<Car> Cars { get; }
-		bool SaveCar(Car game);
+		bool SaveCar(CarViewModel game);
 		bool DeleteCar(int gameId);
 	}
 }

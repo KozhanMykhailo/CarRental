@@ -15,7 +15,7 @@
     <div>
         <h4>Car</h4>
         <hr />
-        <dl class="row">            
+        <dl class="row">
             <dt class="col-sm-2">
                 @Html.DisplayNameFor(model => model.Name)
             </dt>
@@ -51,7 +51,18 @@
             </dt>
             <dd class="col-sm-10">
                 @Html.DisplayFor(model => model.Description)
-            </dd>            
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.ImageData)
+            </dt>
+            <dd class="col-sm-10">
+                <div>
+                    @if (Model.ImageData != null)
+                    {
+                        <img style='width:400px; height:260px;' src="data:image/jpeg;base64,@(Convert.ToBase64String(Model.ImageData))" />
+                    }
+                </div>
+            </dd>
         </dl>
     </div>
     <div>

@@ -1,54 +1,65 @@
-﻿@model CarRental.Entities.Car
+﻿@using CarRental.Entities
+@model CarRental.Models.CarViewModel
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
 
 @{
-    ViewData["Title"] = "CreateCar";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 <h1>Создание предложения</h1>
 <h4>Введите данные</h4>
-@using (Html.BeginForm())
-{
-    <div class="form-group">
-        <label>Наименование</label>
-        @Html.TextBoxFor(car => car.Name)
-        @Html.ValidationMessageFor(car => car.Name)
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="CreateCar" asp-controller="Admin" asp-area="Admin" method="post" enctype="multipart/form-data">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Name" class="control-label"></label>
+                <input asp-for="Name" class="form-control" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Color" class="control-label"></label>
+                <input asp-for="Color" class="form-control" />
+                <span asp-validation-for="Color" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Model" class="control-label"></label>
+                <input asp-for="Model" class="form-control" />
+                <span asp-validation-for="Model" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="RentalPrice" class="control-label"></label>
+                <input asp-for="RentalPrice" class="form-control" />
+                <span asp-validation-for="RentalPrice" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Class" class="control-label"></label>
+                <select asp-for="Class" asp-items="Html.GetEnumSelectList<ClassCar>()"></select>
+                <span asp-validation-for="Class" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Description" class="control-label"></label>
+                <input asp-for="Description" class="form-control" />
+                <span asp-validation-for="Description" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Avatar" class="control-label"></label>
+                <input type="file" asp-for="Avatar" class="btn" />
+                <span asp-validation-for="Avatar" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Создать" class="btn btn-outline-success" />
+            </div>
+        </form>
     </div>
-    <div class="form-group">
-        <label>Модель</label>
-        @Html.TextBoxFor(car => car.Model)
-        @Html.ValidationMessageFor(car => car.Model)
-    </div>
-    <div class="form-group">
-        <label>Класс авто</label>
-        @Html.DropDownListFor(car => car.Class,
-             new SelectList(Enum.GetNames(typeof(CarRental.Entities.ClassCar))))
-        @Html.ValidationMessageFor(car => car.Class)
-    </div>
-    <div class="form-group">
-        <label>Цвет</label>
-        @Html.TextBoxFor(car => car.Color)
-        @Html.ValidationMessageFor(car => car.Color)
-    </div>
-    <div class="form-group">
-        <label>Описание</label>
-        @Html.TextBoxFor(car => car.Description)
-        @Html.ValidationMessageFor(car => car.Description)
-    </div>
-    <div class="form-group">
-        <label>Цена</label>
-        @Html.EditorFor(car => car.RentalPrice)
-        @Html.ValidationMessageFor(car => car.RentalPrice)
-    </div>
-    <input type="submit" value="Создать" class="btn btn-outline-success" />
-}
-<div>
-    @Html.ActionLink("К списку доступных", "GetAllCars", new { area = "Admin", controller = "Admin" }, new { @class = "btn btn-outline-info" })
 </div>
 
-@section Scripts{
+<div>
+    <a asp-action="GetAllCars" asp-controller="Admin" asp-area="Admin" class = "btn btn-outline-info">К списку доступных</a>
+</div>
 
-    <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
-    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
     <script>
         // переопределение валидации на стороне клиента
         $.validator.methods.range = function (value, element, param) {
@@ -61,4 +72,3 @@
         }
     </script>
 }
-

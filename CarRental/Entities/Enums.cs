@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
@@ -12,6 +13,7 @@ namespace CarRental.Entities
 		/// <summary>
 		///  Неизвестно(либо всё)
 		/// </summary>
+		[Display(Name = "Любой")]
 		All = 0,
 		/// <summary>
 		///  Малогабаритные авто
@@ -39,12 +41,12 @@ namespace CarRental.Entities
 		/// <summary>
 		/// Без водителя
 		/// </summary>
-		[Description("Без водителя")]
+		[Display(Name = "Без водителя")]
 		Off = 0,
 		/// <summary>
 		/// С водителем
 		/// </summary>
-		[Description("С водителем")]
+		[Display(Name = "С водителем")]
 		On = 1,
 	}
 	public enum SortState

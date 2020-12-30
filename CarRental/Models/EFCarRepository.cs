@@ -2,6 +2,7 @@
 using CarRental.Entities;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -27,8 +28,23 @@ namespace CarRental.Models
 			}
 			return false;
 		}
-		public bool SaveCar(Car car)
+		public bool SaveCar(CarViewModel carFromView)
 		{
+			Car car = new Car();
+			car.Id = carFromView.Id;
+			car.Model = carFromView.Model;
+			car.Color = carFromView.Color;
+			car.Class = carFromView.Class;
+			car.Description = carFromView.Description;
+			car.Name = carFromView.Name;
+			car.RentalPrice = carFromView.RentalPrice;
+			byte[] imageData = null;
+			using (var binaryReader = new BinaryReader(carFromView.Avatar.OpenReadStream()))
+			{
+				imageData = binaryReader.ReadBytes((int)carFromView.Avatar.Length);
+			}
+			// установка массива байтов
+			car.ImageData = imageData;
 			if (car.Id == 0)
 			{
 				if (_context.Cars.Count() == 0)
@@ -36,7 +52,16 @@ namespace CarRental.Models
 					car.Id = 1;
 				}
 				else
+				{
 					car.Id = _context.Cars.Max(m => m.Id) + 1;
+				}
+				//byte[] imageData = null;
+				//using (var binaryReader = new BinaryReader(carFromView.Avatar.OpenReadStream()))
+				//{
+				//	imageData = binaryReader.ReadBytes((int)carFromView.Avatar.Length);
+				//}
+				//// установка массива байтов
+				//car.ImageData = imageData;
 				_context.Cars.Add(car);
 			}
 			else
@@ -50,6 +75,7 @@ namespace CarRental.Models
 					dbCar.Description = car.Description;
 					dbCar.Name = car.Name;
 					dbCar.RentalPrice = car.RentalPrice;
+					dbCar.ImageData = car.ImageData;
 				}
 			}
 			var result = _context.SaveChanges();

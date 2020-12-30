@@ -13,6 +13,7 @@
         font-weight: normal;
         font-style: normal
     }
+
     .glyphicon {
         display: inline-block;
         font: normal normal normal 14px/1 FontAwesome;
@@ -21,22 +22,24 @@
         -webkit-font-smoothing: antialiased;
         -moz-osx-font-smoothing: grayscale
     }
+
     .glyphicon-chevron-right:before {
         content: "\f054";
     }
+
     .glyphicon-chevron-left:before {
         content: "\f053";
     }
 </style>
 <h1>Список доступных авто для аренды</h1>
-@using (Html.BeginForm("Index", "Home", FormMethod.Get,new { @Class = "form-inline" }))
+@using (Html.BeginForm("Index", "Home", FormMethod.Get, new { @Class = "form-inline" }))
 {
-        <label class="mr-sm-2 mb-1">Модель</label>
-        @Html.TextBox("model",null,null,new {@Class="form-control mr-sm-2 mb-2 mb-sm-0" })
-    
-        <label class="mr-sm-2 mb-1">Класс</label>
-        @Html.DropDownList("clas", new SelectList(Enum.GetNames(typeof(CarRental.Entities.ClassCar))),new { @Class = "form-control mr-sm-2 mb-2 mb-sm-0" })
-   
+    <label class="mr-sm-2 mb-1">Модель</label>
+    @Html.TextBox("model", null, null, new { @Class = "form-control mr-sm-2 mb-2 mb-sm-0" })
+
+    <label class="mr-sm-2 mb-1">Класс</label>
+    @Html.DropDownList("clas", new SelectList(Enum.GetNames(typeof(CarRental.Entities.ClassCar))), new { @Class = "form-control mr-sm-2 mb-2 mb-sm-0" })
+
     <input type="submit" value="Фильтр" class="btn btn-outline-dark" />
 }
 <table class="table">
@@ -66,6 +69,12 @@
             <p>Описание</p>
         </th>
         <th>
+
+        </th>
+        <th>
+            <p>
+                Изображение
+            </p>
         </th>
     </tr>
     @foreach (Car u in Model.Cars)
@@ -83,7 +92,18 @@
                     @Html.ActionLink("Оформить заказ", "CreateOrder", "Home", new { carId = u.Id }, new { @class = "btn btn-outline-info" })
                 }
             </td>
+            <td>
+                <div>
+                    @if (u.ImageData != null)
+                    {
+                        <img style='width:300px; height:200px;' src="data:image/jpeg;base64,@(Convert.ToBase64String(u.ImageData))" />
+                    }
+                </div>
+            </td>
+            <td>
+            </td>
         </tr>
+        <tr></tr>
     }
 </table>
 @if (Model.PageViewModel.HasPreviousPage)

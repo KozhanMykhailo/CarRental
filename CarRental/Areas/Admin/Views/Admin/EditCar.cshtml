@@ -1,4 +1,6 @@
-﻿@model CarRental.Entities.Car
+﻿@using CarRental.Entities
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@model CarRental.Models.CarViewModel
 
 @{
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -12,52 +14,72 @@
     <title>EditCar</title>
 </head>
 <body>
-    <h4>Car</h4>
+
+    <h4>CarViewModel</h4>
     <hr />
     <div class="row">
         <div class="col-md-4">
-            @using (Html.BeginForm())
-            {
-                @Html.HiddenFor(car => car.Id);
+            <form asp-action="EditCar" asp-controller="Admin" asp-area="Admin" method="post" enctype="multipart/form-data">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                 <div class="form-group">
-                    <label>Наименование</label>
-                    @Html.EditorFor(car => car.Name)
-                    @Html.ValidationMessageFor(car => car.Name)
+                    <label asp-for="Id" class="control-label"></label>
+                    <input asp-for="Id" class="form-control" />
+                    <span asp-validation-for="Id" class="text-danger"></span>
                 </div>
                 <div class="form-group">
-                    <label>Модель</label>
-                    @Html.EditorFor(car => car.Model)
-                    @Html.ValidationMessageFor(car => car.Model)
+                    <label asp-for="Name" class="control-label"></label>
+                    <input asp-for="Name" class="form-control" />
+                    <span asp-validation-for="Name" class="text-danger"></span>
                 </div>
                 <div class="form-group">
-                    <label>Класс авто</label>
-                    @Html.DropDownListFor(car => car.Class,
-                         new SelectList(Enum.GetNames(typeof(CarRental.Entities.ClassCar))))
-                    @Html.ValidationMessageFor(car => car.Class)
+                    <label asp-for="Color" class="control-label"></label>
+                    <input asp-for="Color" class="form-control" />
+                    <span asp-validation-for="Color" class="text-danger"></span>
                 </div>
                 <div class="form-group">
-                    <label>Цвет</label>
-                    @Html.EditorFor(car => car.Color)
-                    @Html.ValidationMessageFor(car => car.Color)
+                    <label asp-for="Model" class="control-label"></label>
+                    <input asp-for="Model" class="form-control" />
+                    <span asp-validation-for="Model" class="text-danger"></span>
                 </div>
                 <div class="form-group">
-                    <label>Описание</label>
-                    @Html.EditorFor(car => car.Description)
-                    @Html.ValidationMessageFor(car => car.Description)
+                    <label asp-for="RentalPrice" class="control-label"></label>
+                    <input asp-for="RentalPrice" class="form-control" />
+                    <span asp-validation-for="RentalPrice" class="text-danger"></span>
                 </div>
                 <div class="form-group">
-                    <label>Цена</label>
-                    @Html.EditorFor(car => car.RentalPrice)
-                    @Html.ValidationMessageFor(car => car.RentalPrice)
+                    <label asp-for="Class" class="control-label"></label>
+                    <select asp-for="Class" asp-items="Html.GetEnumSelectList<ClassCar>()"></select>
+                    <span asp-validation-for="Class" class="text-danger"></span>
                 </div>
-                <input type="submit" value="Сохранить" class="btn btn-outline-success" />
-            }
+                <div class="form-group">
+                    <label asp-for="Description" class="control-label"></label>
+                    <input asp-for="Description" class="form-control" />
+                    <span asp-validation-for="Description" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Avatar" class="control-label"></label>
+                    <input type="file" asp-for="Avatar" class="btn" />
+                    <span asp-validation-for="Avatar" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Image" class="control-label"></label>
+                    <div>
+                        @if (Model.Image != null)
+                        {
+
+                            <img style='width:800px; height:600px;' src="data:image/jpeg;base64,@(Convert.ToBase64String(Model.Image))" />
+                        }
+                    </div>
+                </div>
+                <div class="form-group">
+                    <input type="submit" value="Сохранить" class="btn btn-primary" />
+                </div>
+            </form>
         </div>
     </div>
 
     <div>
-        @Html.ActionLink("К списку доступных", "GetAllCars", new { area = "Admin", controller = "Admin" }, new { @class = "btn btn-outline-info" })
-        @Html.ActionLink("Меню", "DefaultAction", new { area = "Admin", controller = "Admin" }, new { @class = "btn btn-outline-info" })
+        <a asp-action="GetAllCars" asp-controller="Admin" asp-area="Admin" class = "btn btn-outline-info">К списку доступных</a>
     </div>
 
     @section Scripts {

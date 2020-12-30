@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using CarRental.Abstract;
 using CarRental.Entities;
 using CarRental.Models;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.VisualStudio.Web.CodeGeneration.Utils.Messaging;
 
@@ -62,13 +64,13 @@ namespace CarRental.Areas.Admin.Controllers
 		}
 		[Route("Admin/CreateCar")]
 		[HttpPost]
-		public IActionResult CreateCar(Car newcar)
+		public IActionResult CreateCar(CarViewModel newcar)
 		{
 			if (ModelState.IsValid)
 			{
 				if(_carRepository.SaveCar(newcar))
 					return RedirectToAction("GetAllCars");
-			}
+			}			
 			return View(newcar);
 		}
 		[Route("Admin/EditCar")]
@@ -78,13 +80,24 @@ namespace CarRental.Areas.Admin.Controllers
 			var car = _carRepository.Cars.Where(w => w.Id == id).FirstOrDefault();
 			if (car != null)
 			{
-				return View(car);
+				var stream = new MemoryStream(car.ImageData);
+				return View(new CarViewModel() { 
+					Name = car.Name,
+					RentalPrice = car.RentalPrice,
+					Model = car.Model,
+					//Avatar = new FormFile(stream, 0, car.ImageData.Length, "potoc", "image1"),
+					Image = car.ImageData,
+					Color = car.Color,
+					Class = car.Class,
+					Description = car.Description,
+					Id = car.Id}
+					);
 			}
 			return RedirectToAction("GetAllCars");
 		}
 		[Route("Admin/EditCar")]
 		[HttpPost]
-		public IActionResult EditCar(Car car)
+		public IActionResult EditCar(CarViewModel car)
 		{
 			if (ModelState.IsValid)
 			{

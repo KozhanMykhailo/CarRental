@@ -43,7 +43,6 @@ namespace CarRental
 			services.AddSession();
 			services.AddControllers();
 
-
 			var builder = new ContainerBuilder();
 			builder.RegisterType<EFCarRepository>().As<ICarRepository>();
 			builder.RegisterType<EFUserRepository>().As<IUserRepository>();
@@ -51,8 +50,6 @@ namespace CarRental
 			builder.RegisterType<EFOrderRepository>().As<IOrderRepository>();
 			builder.RegisterType<EFBillRepository>().As<IBillRepository>();
 			builder.Populate(services);
-
-
 			var container = builder.Build();
 			return new AutofacServiceProvider(container);
 		}
@@ -78,6 +75,7 @@ namespace CarRental
 			app.UseAuthentication();
 			app.UseAuthorization();
 			app.UseSession();
+			app.UseDeveloperExceptionPage();
 
 
 			app.UseEndpoints(endpoints =>

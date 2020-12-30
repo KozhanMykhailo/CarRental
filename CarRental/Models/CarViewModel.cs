@@ -1,26 +1,28 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using CarRental.Entities;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace CarRental.Entities
+namespace CarRental.Models
 {
-	public class Car
+	public class CarViewModel
 	{
 		/// <summary>
 		/// ID
-		/// </summary>
+		 /// </summary>
 		[Key]
-		[HiddenInput(DisplayValue = false)]
+		[HiddenInput]
 		public int Id { get; set; }
 		/// <summary>
 		/// Наименование
 		/// </summary>
-		[Display(Name = "Название")]
 		[Required(ErrorMessage = "Заполните наименование")]
 		[StringLength(30, MinimumLength = 1, ErrorMessage = "Длина строки должна быть до 30 символов")]
+		[Display(Name = "Название")]
 		public string Name { get; set; }
 		/// <summary>
 		/// Цвет
@@ -59,12 +61,13 @@ namespace CarRental.Entities
 		/// Изображение
 		/// </summary>
 		[HiddenInput(DisplayValue = false)]
-		[Display(Name = "Изображение")]
-		public byte[] ImageData { get; set; }
+		[Display(Name = "Новое изображение")]
+		public IFormFile Avatar { get; set; }
 		/// <summary>
-		/// Тип изображения
+		/// Изображение для вывода в корректировку
 		/// </summary>
 		[HiddenInput(DisplayValue = false)]
-		public string ImageMimeType { get; set; }
+		[Display(Name = "Текущее изображение")]
+		public byte[] Image { get; set; }
 	}
 }

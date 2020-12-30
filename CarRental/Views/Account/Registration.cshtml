@@ -6,18 +6,18 @@
     <div class="validation" asp-validation-summary="ModelOnly"></div>
     <div>
         <div>
-            <label asp-for="Email">Введите Email</label><br />
-            <input type="text" asp-for="Email" />
-            <span asp-validation-for="Email" />
+            <label asp-for="Email" class="control-label">Введите Email</label><br />
+            <input type="text" asp-for="Email" class="form-control" />
+            <span asp-validation-for="Email"></span>
         </div>
         <div>
-            <label asp-for="Password">Введите пароль</label><br />
-            <input asp-for="Password" />
-            <span asp-validation-for="Password" />
+            <label asp-for="Password" class="control-label">Введите пароль</label><br />
+            <input asp-for="Password" class="form-contro"/>
+            <span asp-validation-for="Password"></span>
         </div>
         <div>
-            <label asp-for="ConfirmPassword">Повторите пароль</label><br />
-            <input asp-for="ConfirmPassword" />
+            <label asp-for="ConfirmPassword" class="control-label">Повторите пароль</label><br />
+            <input asp-for="ConfirmPassword" class="form-control" />
             <span asp-validation-for="ConfirmPassword" />
         </div>
         <div>
