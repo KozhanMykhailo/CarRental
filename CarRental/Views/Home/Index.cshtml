@@ -30,6 +30,10 @@
     .glyphicon-chevron-left:before {
         content: "\f053";
     }
+    .class-a-centre {
+        display: block;
+        text-align: center;
+    }
 </style>
 <h1>Список доступных авто для аренды</h1>
 @using (Html.BeginForm("Index", "Home", FormMethod.Get, new { @Class = "form-inline" }))
@@ -45,34 +49,41 @@
 <table class="table">
     <tr>
         <th>
-            <a asp-action="Index"
-               asp-route-sortOrder="@(Model.SortViewModel.NameSort)"
-               asp-route-name="@(Model.FilterViewModel.SelectedModel)"
-               asp-route-model="@(Model.FilterViewModel.SelectedClass)">Наименование</a>
+            <div class="class-a-centre">
+                <a asp-action="Index"
+                   asp-route-sortOrder="@(Model.SortViewModel.NameSort)"
+                   asp-route-model="@(Model.FilterViewModel.SelectedModel)"
+                   asp-route-clas="@(Model.FilterViewModel.SelectedClass)">Наименование</a>
+            </div>
         </th>
         <th>
-            <a asp-action="Index"
-               asp-route-sortOrder="@(Model.SortViewModel.PriceSort)"
-               asp-route-name="@(Model.FilterViewModel.SelectedModel)"
-               asp-route-model="@(Model.FilterViewModel.SelectedClass)">Цена</a>
+            <div class="class-a-centre">
+                <a asp-action="Index"
+                   asp-route-sortOrder="@(Model.SortViewModel.PriceSort)"
+                   asp-route-model="@(Model.FilterViewModel.SelectedModel)"
+                   asp-route-clas="@(Model.FilterViewModel.SelectedClass)">Цена</a>
+            </div>
         </th>
         <th>
-            <p>Цвет</p>
+            <p align="center">Цвет</p>
         </th>
         <th>
-            <p>Модель</p>
+            <p align="center">Модель</p>
         </th>
         <th>
-            <p>Класс</p>
+            <p align="center">Класс</p>
         </th>
         <th>
-            <p>Описание</p>
+            <p align="center">Описание</p>
         </th>
-        <th>
+        @if (User.IsInRole("user"))
+        {
+            <th>
 
-        </th>
-        <th>
-            <p>
+            </th>
+        }
+        <th align="center">
+            <p align="center">
                 Изображение
             </p>
         </th>
@@ -80,20 +91,22 @@
     @foreach (Car u in Model.Cars)
     {
         <tr>
-            <td>@u.Name</td>
-            <td>@u.RentalPrice</td>
-            <td>@u.Color</td>
-            <td>@u.Model</td>
-            <td>@u.Class</td>
-            <td>@u.Description</td>
-            <td>
-                @if (User.IsInRole("user"))
-                {
+            <td align="center">@u.Name</td>
+            <td align="center">@u.RentalPrice</td>
+            <td align="center">@u.Color</td>
+            <td align="center">@u.Model</td>
+            <td align="center">@u.Class</td>
+            <td align="left">@u.Description</td>
+            @if (User.IsInRole("user"))
+            {
+                <td align="center">
+
                     @Html.ActionLink("Оформить заказ", "CreateOrder", "Home", new { carId = u.Id }, new { @class = "btn btn-outline-info" })
-                }
-            </td>
+
+                </td>
+            }
             <td>
-                <div>
+                <div class="class-a-centre">
                     @if (u.ImageData != null)
                     {
                         <img style='width:300px; height:200px;' src="data:image/jpeg;base64,@(Convert.ToBase64String(u.ImageData))" />
@@ -110,8 +123,8 @@
 {
     <a asp-action="Index"
        asp-route-page="@(Model.PageViewModel.PageNumber - 1)"
-       asp-route-name="@(Model.FilterViewModel.SelectedModel)"
-       asp-route-model="@(Model.FilterViewModel.SelectedClass)"
+       asp-route-model="@(Model.FilterViewModel.SelectedModel)"
+       asp-route-clas="@(Model.FilterViewModel.SelectedClass)"
        asp-route-sortorder="@(Model.SortViewModel.Current)"
        class="btn  btn-outline-dark">
         <i class="glyphicon glyphicon-chevron-left"></i>
@@ -122,8 +135,8 @@
 {
     <a asp-action="Index"
        asp-route-page="@(Model.PageViewModel.PageNumber + 1)"
-       asp-route-name="@(Model.FilterViewModel.SelectedModel)"
-       asp-route-model="@(Model.FilterViewModel.SelectedClass)"
+       asp-route-model="@(Model.FilterViewModel.SelectedModel)"
+       asp-route-clas="@(Model.FilterViewModel.SelectedClass)"
        asp-route-sortorder="@(Model.SortViewModel.Current)"
        class="btn btn-outline-dark">
         Вперед
