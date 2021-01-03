@@ -30,6 +30,8 @@ namespace CarRental.Controllers
 			_billRepository = billRepository;
 		}
 		//[Authorize(Roles = "admin,user")]
+		[Route("/")]
+		[Route("Home/Index")]
 		public IActionResult Index(ClassCar? clas, string model, int page = 1, SortState sortOrder = SortState.NameAsc)
 		{
 			int pageSize = 5;
